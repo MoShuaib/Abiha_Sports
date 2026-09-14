@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Search } from 'lucide-react'
-import { SiteHeader } from '@/components/site-header' 
+import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { ProductCard } from '@/components/product-card'
+import { Reveal } from '@/components/reveal'
 import { categories, products } from '@/lib/products'
 import type { Product } from '@/lib/products'
 import { ProductDetailsModal } from '@/components/product-details-modal'
@@ -18,8 +19,9 @@ export default function ProductsPage() {
 
   const visible = products.filter((p) => {
     const matchesCategory = category === 'All equipment' || p.category === category
-    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          p.description.toLowerCase().includes(searchQuery.toLowerCase())
+    const matchesSearch =
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
 
@@ -37,40 +39,39 @@ export default function ProductsPage() {
     <>
       <SiteHeader />
       <main>
-        {/* Hero Section */}
         <section className="mx-auto max-w-7xl px-5 pb-14 pt-16 lg:px-8 lg:pb-20 lg:pt-24">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent-foreground">
-                The Abiha collection
-              </p>
+            <Reveal>
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent-foreground">The Abiha collection</p>
               <h1 className="mt-4 font-serif text-5xl font-semibold leading-tight tracking-tight sm:text-7xl">
-                Equipment for the{' '}
-                <span className="text-primary">long haul.</span>
+                Equipment for the <span className="text-primary">long haul.</span>
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-8 text-muted-foreground">
-                From the first swing to the thousandth, our wooden training tools
-                are made to feel good in the hand and hold up under real practice —
-                whether you train in a gym, studio, home, or traditional space.
+                From the first swing to the thousandth, our wooden training tools are made to feel good in the hand and hold up under real practice — whether you train in a gym, studio, home, or traditional space.
               </p>
-            </div>
-            <div className="relative h-[350px] w-full overflow-hidden rounded-3xl sm:h-[450px] lg:h-[500px]">
-              <Image src="/products-hero.jpg" alt="Traditional Indian wooden training equipment collection" fill className="object-cover transition-transform duration-700 hover:scale-105" priority />
-            </div>
+            </Reveal>
+            <Reveal delay={120} className="relative h-[350px] w-full overflow-hidden rounded-3xl shadow-[0_30px_70px_-40px_rgba(20,30,50,0.45)] sm:h-[450px] lg:h-[500px]">
+              <Image
+                src="/products-hero.jpg"
+                alt="Traditional Indian wooden training equipment collection"
+                fill
+                className="object-cover transition-transform duration-700 hover:scale-105"
+                priority
+              />
+            </Reveal>
           </div>
         </section>
 
-        {/* Category Filter and Search */}
-        <section className="border-y border-border bg-secondary">
+        <section className="sticky top-20 z-30 border-y border-border bg-secondary/90 backdrop-blur-md">
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-8">
             <div className="flex flex-wrap gap-2" aria-label="Filter products">
               {categories.map((item) => (
                 <button
                   key={item}
                   onClick={() => setCategory(item)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
                     category === item
-                      ? 'bg-primary text-primary-foreground'
+                      ? 'bg-primary text-primary-foreground shadow-md'
                       : 'text-muted-foreground hover:bg-background hover:text-foreground'
                   }`}
                 >
@@ -87,65 +88,50 @@ export default function ProductsPage() {
                 placeholder="Search products..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="block w-full rounded-full border border-input bg-background py-2 pl-10 pr-4 text-sm outline-none ring-offset-background focus:ring-2 focus:ring-ring"
+                className="block w-full rounded-full border border-input bg-background py-2 pl-10 pr-4 text-sm outline-none ring-offset-background transition-shadow focus:ring-2 focus:ring-ring"
               />
             </div>
           </div>
         </section>
 
-        {/* Products Grid */}
         <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-20">
           <div className="mb-8 flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
-              Showing {visible.length} pieces
-            </p>
-            <p className="hidden text-sm text-muted-foreground sm:block">
-              Made in Meerut · Ships across India · Bulk orders welcome
-            </p>
+            <p className="text-sm text-muted-foreground">Showing {visible.length} pieces</p>
+            <p className="hidden text-sm text-muted-foreground sm:block">Made in Meerut · Ships across India · Bulk orders welcome</p>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {visible.map((product) => (
-              <ProductCard
-                key={product.slug}
-                product={product}
-                onClick={() => handleProductClick(product)}
-              />
-            ))}
-          </div>
+          {visible.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-border bg-secondary/40 px-6 py-16 text-center">
+              <p className="font-serif text-2xl font-semibold">No pieces match that search.</p>
+              <p className="mt-2 text-sm text-muted-foreground">Try another keyword or browse all equipment.</p>
+            </div>
+          ) : (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {visible.map((product, index) => (
+                <Reveal key={product.slug} delay={index * 60}>
+                  <ProductCard product={product} onClick={() => handleProductClick(product)} />
+                </Reveal>
+              ))}
+            </div>
+          )}
         </section>
 
-        {/* CTA Section */}
         <section className="border-t border-border bg-secondary">
           <div className="mx-auto grid max-w-7xl gap-6 px-5 py-12 sm:grid-cols-3 lg:px-8">
-            <div>
-              <p className="text-sm font-bold text-foreground">Need a different weight?</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Ask Abiha Sports Industries about your training level or custom requirement.
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground">Buying in quantity?</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                We support akhaadas, gyms, retailers, and institutional enquiries.
-              </p>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground">Not sure what to choose?</p>
-              <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                Share your use case and we&apos;ll recommend a practical starting point.
-              </p>
-            </div>
+            {[
+              { title: 'Need a different weight?', text: 'Ask Abiha Sports Industries about your training level or custom requirement.' },
+              { title: 'Buying in quantity?', text: 'We support akhaadas, gyms, retailers, and institutional enquiries.' },
+              { title: 'Not sure what to choose?', text: "Share your use case and we'll recommend a practical starting point." },
+            ].map((item, index) => (
+              <Reveal key={item.title} delay={index * 80}>
+                <p className="text-sm font-bold text-foreground">{item.title}</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">{item.text}</p>
+              </Reveal>
+            ))}
           </div>
         </section>
       </main>
 
-      {/* Product Details Modal */}
-      <ProductDetailsModal
-        product={selectedProduct}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
-
+      <ProductDetailsModal product={selectedProduct} isOpen={isModalOpen} onClose={handleCloseModal} />
       <SiteFooter />
     </>
   )

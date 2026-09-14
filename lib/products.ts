@@ -65,7 +65,7 @@ export const products: Product[] = [
       { label: 'Color', value: 'Brown' },
     ],
     image: '/products/hanuman.jpg',
-    
+
     featured: true,
   },
   {
@@ -171,6 +171,5 @@ export const categories = [
 
 export const getProduct = (slug: string) => products.find((product) => product.slug === slug)
 
-export const whatsappUrl = 'https://wa.me/919999999999'
-export const phoneNumber = '+91 99999 99999'
-export const emailAddress = 'sales@abihasports.com'
+export const whatsappUrl = 'https://wa.me/message/YOUR_SHORTLINK_HERE'
+export const emailAddress = 'abihasportsindustries@gmail.com'
