@@ -14,7 +14,7 @@ export function SiteFooter() {
             <Image src="/logo.png" alt="Abiha Sports Industries" width={100} height={100} className="h-20 w-auto object-contain" />
           </div>
           <p className="max-w-sm text-sm leading-6 text-primary-foreground/70">
-            Traditional strength, made for modern training. Handcrafted akhaada equipment from Meerut, made to move with you.
+            Traditional strength, made for modern training. Handcrafted equipment from Meerut, made to move with you.
           </p>
         </div>
         <div>
@@ -23,6 +23,7 @@ export function SiteFooter() {
             <Link href="/products" className="transition-colors hover:text-accent">All products</Link>
             <Link href="/about" className="transition-colors hover:text-accent">Our story</Link>
             <Link href="/contact" className="transition-colors hover:text-accent">Get in touch</Link>
+            <Link href="/policies" className="transition-colors hover:text-accent">Policies</Link>
           </div>
         </div>
         <div>
