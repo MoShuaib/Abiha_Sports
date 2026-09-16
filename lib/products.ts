@@ -373,7 +373,7 @@ export const products: Product[] = [
       { label: 'Finish', value: 'Natural wood' },
       { label: 'Usage', value: 'Akhada' },
     ],
-    image: '/products/wooden-Samtola-18kg.jpg',
+    image: '/products/wooden-samtola-18kg.jpg',
   },
   {
     slug: 'wooden-Samtola-22kg',
@@ -393,7 +393,7 @@ export const products: Product[] = [
       { label: 'Finish', value: 'Natural wood' },
       { label: 'Usage', value: 'Akhada' },
     ],
-    image: '/products/wooden-Samtola-22kg.jpg',
+    image: '/products/wooden-samtola-22kg.jpg',
   },
 
   // ---------- BODYWEIGHT TRAINING ----------
