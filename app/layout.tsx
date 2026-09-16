@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: 'Abiha Sports Industries manufactures and distributes handcrafted wooden akhaada equipment from Meerut, India.',
   generator: 'Abiha Sports Industries',
   metadataBase: new URL('https://abihasports.com'),
-  keywords: ['akhaada equipment', 'wooden mugdar', 'Hanuman gada', 'Sumtola', 'Meerut sports equipment'],
+  keywords: ['akhaada equipment', 'wooden mugdar', 'Hanuman gada', 'Samtola', 'Meerut sports equipment'],
   icons: {
     icon: [
       {

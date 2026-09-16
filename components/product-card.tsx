@@ -23,9 +23,9 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
           className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, 33vw"
         />
-        <span className="absolute left-4 top-4 rounded-full bg-background/95 px-3 py-1.5 text-xs font-semibold text-foreground shadow-md backdrop-blur">
+        {/* <span className="absolute left-4 top-4 rounded-full bg-background/95 px-3 py-1.5 text-xs font-semibold text-foreground shadow-md backdrop-blur">
           {product.category}
-        </span>
+        </span> */}
         <div className="absolute inset-0 flex items-center justify-center bg-primary/0 transition-colors duration-500 group-hover:bg-primary/25">
           <div className="flex translate-y-2 items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground opacity-0 shadow-lg transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
             View details

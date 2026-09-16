@@ -18,7 +18,7 @@ export default function ProductsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const visible = products.filter((p) => {
-    const matchesCategory = category === 'All equipment' || p.category === category
+    const matchesCategory = category === 'All equipment' || p.shortName === category
     const matchesSearch =
       p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       p.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -64,22 +64,25 @@ export default function ProductsPage() {
 
         <section className="sticky top-20 z-30 border-y border-border bg-secondary/90 backdrop-blur-md">
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-            <div className="flex flex-wrap gap-2" aria-label="Filter products">
-              {categories.map((item) => (
-                <button
-                  key={item}
-                  onClick={() => setCategory(item)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
-                    category === item
-                      ? 'bg-primary text-primary-foreground shadow-md'
-                      : 'text-muted-foreground hover:bg-background hover:text-foreground'
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
+            <div className="relative w-full lg:w-72" aria-label="Filter products">
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full appearance-none rounded-full border border-input bg-background py-2 pl-4 pr-10 text-sm font-medium outline-none ring-offset-background transition-shadow focus:ring-2 focus:ring-ring cursor-pointer"
+              >
+                {categories.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+                <svg className="h-4 w-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
             </div>
-            <div className="relative w-full lg:w-72">
+            <div className="relative w-full lg:w-96">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <Search className="size-4 text-muted-foreground" />
               </div>

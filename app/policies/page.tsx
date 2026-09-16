@@ -69,7 +69,7 @@ export default function PoliciesPage() {
                 <li>Product weight and dimensions</li>
                 <li>Shipping method</li>
                 <li>Courier or transportation provider</li>
-                <li>Special handling or packaging requirements</li>
+
               </ul>
               <p>The estimated delivery date is provided as a guideline and should not be considered an absolute guarantee.</p>
               <p>The applicable delivery charges will be communicated to the customer before dispatch, where applicable.</p>
