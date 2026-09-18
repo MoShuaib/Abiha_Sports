@@ -6,10 +6,12 @@ import type { Product } from '@/lib/products'
 
 interface ProductCardProps {
   product: Product
+  title?: string
+  subtitle?: string
   onClick?: () => void
 }
 
-export function ProductCard({ product, onClick }: ProductCardProps) {
+export function ProductCard({ product, title, subtitle, onClick }: ProductCardProps) {
   return (
     <article
       onClick={onClick}
@@ -18,7 +20,7 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
       <div className="relative aspect-4/3 overflow-hidden bg-secondary">
         <Image
           src={product.image}
-          alt={product.name}
+          alt={title || product.name}
           fill
           className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
           sizes="(max-width: 768px) 100vw, 33vw"
@@ -28,16 +30,20 @@ export function ProductCard({ product, onClick }: ProductCardProps) {
         </span> */}
         <div className="absolute inset-0 flex items-center justify-center bg-primary/0 transition-colors duration-500 group-hover:bg-primary/25">
           <div className="flex translate-y-2 items-center gap-2 rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground opacity-0 shadow-lg transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-            View details
+            View {subtitle ? 'options' : 'details'}
             <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-3 p-5">
         <h3 className="line-clamp-2 font-serif text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
-          {product.name}
+          {title || product.name}
         </h3>
-        {product.price && <p className="text-lg font-bold text-primary">{product.price}</p>}
+        {subtitle ? (
+          <p className="text-sm font-medium text-muted-foreground">{subtitle}</p>
+        ) : (
+          product.price && <p className="text-lg font-bold text-primary">{product.price}</p>
+        )}
       </div>
     </article>
   )

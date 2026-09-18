@@ -2,27 +2,48 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Search } from 'lucide-react'
+import { Search, ArrowLeft } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { ProductCard } from '@/components/product-card'
 import { Reveal } from '@/components/reveal'
-import { categories, products } from '@/lib/products'
+import { products } from '@/lib/products'
 import type { Product } from '@/lib/products'
 import { ProductDetailsModal } from '@/components/product-details-modal'
 
 export default function ProductsPage() {
-  const [category, setCategory] = useState('All equipment')
+  const [activeCategory, setActiveCategory] = useState('All categories')
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const visible = products.filter((p) => {
-    const matchesCategory = category === 'All equipment' || p.shortName === category
-    const matchesSearch =
-      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      p.description.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCategory && matchesSearch
+  const uniqueCategories = ['All categories', ...Array.from(new Set(products.map(p => p.category)))]
+
+  // When no group is selected, we show groups
+  const groups = Array.from(new Set(products.map(p => p.shortName))).map(shortName => {
+    const items = products.filter(p => p.shortName === shortName)
+    return {
+      shortName,
+      category: items[0].category,
+      product: items[0],
+      count: items.length
+    }
+  })
+
+  const visibleGroups = groups.filter(g => {
+    const matchesCat = activeCategory === 'All categories' || g.category === activeCategory
+    const matchesSearch = 
+      g.shortName.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      g.product.description.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCat && matchesSearch
+  })
+
+  // When a group is selected, we show items in that group
+  const groupItems = selectedGroup ? products.filter(p => p.shortName === selectedGroup) : []
+  const visibleItems = groupItems.filter(p => {
+    return p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+           p.description.toLowerCase().includes(searchQuery.toLowerCase())
   })
 
   const handleProductClick = (product: Product) => {
@@ -33,6 +54,16 @@ export default function ProductsPage() {
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setTimeout(() => setSelectedProduct(null), 300)
+  }
+
+  const handleGroupClick = (shortName: string) => {
+    setSelectedGroup(shortName)
+    setSearchQuery('')
+  }
+
+  const handleBackClick = () => {
+    setSelectedGroup(null)
+    setSearchQuery('')
   }
 
   return (
@@ -66,11 +97,14 @@ export default function ProductsPage() {
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-8">
             <div className="relative w-full lg:w-72" aria-label="Filter products">
               <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={activeCategory}
+                onChange={(e) => {
+                  setActiveCategory(e.target.value)
+                  setSelectedGroup(null)
+                }}
                 className="w-full appearance-none rounded-full border border-input bg-background py-2 pl-4 pr-10 text-sm font-medium outline-none ring-offset-background transition-shadow focus:ring-2 focus:ring-ring cursor-pointer"
               >
-                {categories.map((item) => (
+                {uniqueCategories.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -99,22 +133,57 @@ export default function ProductsPage() {
 
         <section className="mx-auto max-w-7xl px-5 py-12 lg:px-8 lg:py-20">
           <div className="mb-8 flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">Showing {visible.length} pieces</p>
+            {selectedGroup ? (
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={handleBackClick}
+                  className="flex items-center gap-2 rounded-full bg-secondary px-4 py-2 text-sm font-medium transition-colors hover:bg-secondary/80"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  Back to all products
+                </button>
+                <p className="hidden text-sm font-semibold text-foreground sm:block">{selectedGroup} ({visibleItems.length} options)</p>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">Showing {visibleGroups.length} product collections</p>
+            )}
             <p className="hidden text-sm text-muted-foreground sm:block">Made in Meerut · Ships across India · Bulk orders welcome</p>
           </div>
-          {visible.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-border bg-secondary/40 px-6 py-16 text-center">
-              <p className="font-serif text-2xl font-semibold">No pieces match that search.</p>
-              <p className="mt-2 text-sm text-muted-foreground">Try another keyword or browse all equipment.</p>
-            </div>
+          {!selectedGroup ? (
+            visibleGroups.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-border bg-secondary/40 px-6 py-16 text-center">
+                <p className="font-serif text-2xl font-semibold">No collections match that search.</p>
+                <p className="mt-2 text-sm text-muted-foreground">Try another keyword or browse all categories.</p>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {visibleGroups.map((group, index) => (
+                  <Reveal key={group.shortName} delay={index * 60}>
+                    <ProductCard 
+                      product={group.product} 
+                      title={group.shortName}
+                      subtitle={`${group.count} ${group.count === 1 ? 'option' : 'options'}`}
+                      onClick={() => handleGroupClick(group.shortName)} 
+                    />
+                  </Reveal>
+                ))}
+              </div>
+            )
           ) : (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {visible.map((product, index) => (
-                <Reveal key={product.slug} delay={index * 60}>
-                  <ProductCard product={product} onClick={() => handleProductClick(product)} />
-                </Reveal>
-              ))}
-            </div>
+            visibleItems.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-border bg-secondary/40 px-6 py-16 text-center">
+                <p className="font-serif text-2xl font-semibold">No pieces match that search.</p>
+                <p className="mt-2 text-sm text-muted-foreground">Try another keyword.</p>
+              </div>
+            ) : (
+              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {visibleItems.map((product, index) => (
+                  <Reveal key={product.slug} delay={index * 60}>
+                    <ProductCard product={product} onClick={() => handleProductClick(product)} />
+                  </Reveal>
+                ))}
+              </div>
+            )
           )}
         </section>
 
