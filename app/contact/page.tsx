@@ -75,7 +75,7 @@ export default function ContactPage() {
                 </span>
                 <span>
                   <strong className="block text-foreground">Find us</strong>
-                  <span className="text-muted-foreground">Hmayun Nagar, Merrut </span>
+                  <span className="text-muted-foreground">Humayun Nagar, Meerut 250002, Uttar Pradesh, India </span>
                 </span>
               </span>
             </div>

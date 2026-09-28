@@ -7,18 +7,15 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { ProductCard } from '@/components/product-card'
 import { Reveal } from '@/components/reveal'
-import { products } from '@/lib/products'
+import { products, categories } from '@/lib/products'
 import type { Product } from '@/lib/products'
 import { ProductDetailsModal } from '@/components/product-details-modal'
 
 export default function ProductsPage() {
-  const [activeCategory, setActiveCategory] = useState('All categories')
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const uniqueCategories = ['All categories', ...Array.from(new Set(products.map(p => p.category)))]
 
   // When no group is selected, we show groups
   const groups = Array.from(new Set(products.map(p => p.shortName))).map(shortName => {
@@ -32,11 +29,10 @@ export default function ProductsPage() {
   })
 
   const visibleGroups = groups.filter(g => {
-    const matchesCat = activeCategory === 'All categories' || g.category === activeCategory
     const matchesSearch = 
       g.shortName.toLowerCase().includes(searchQuery.toLowerCase()) || 
       g.product.description.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesCat && matchesSearch
+    return matchesSearch
   })
 
   // When a group is selected, we show items in that group
@@ -97,14 +93,18 @@ export default function ProductsPage() {
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-8">
             <div className="relative w-full lg:w-72" aria-label="Filter products">
               <select
-                value={activeCategory}
+                value={selectedGroup || 'All equipment'}
                 onChange={(e) => {
-                  setActiveCategory(e.target.value)
-                  setSelectedGroup(null)
+                  const val = e.target.value
+                  if (val === 'All equipment') {
+                    setSelectedGroup(null)
+                  } else {
+                    setSelectedGroup(val)
+                  }
                 }}
                 className="w-full appearance-none rounded-full border border-input bg-background py-2 pl-4 pr-10 text-sm font-medium outline-none ring-offset-background transition-shadow focus:ring-2 focus:ring-ring cursor-pointer"
               >
-                {uniqueCategories.map((item) => (
+                {categories.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
@@ -153,7 +153,7 @@ export default function ProductsPage() {
             visibleGroups.length === 0 ? (
               <div className="rounded-3xl border border-dashed border-border bg-secondary/40 px-6 py-16 text-center">
                 <p className="font-serif text-2xl font-semibold">No collections match that search.</p>
-                <p className="mt-2 text-sm text-muted-foreground">Try another keyword or browse all categories.</p>
+                <p className="mt-2 text-sm text-muted-foreground">Try another keyword.</p>
               </div>
             ) : (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

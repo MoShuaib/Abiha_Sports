@@ -30,7 +30,7 @@ export const products: Product[] = [
     use: 'Shoulder conditioning, grip strength, mobility, beginner clubbell training',
     weights: ['4 kg'],
     material: 'Seasoned wood',
-    price: '₹800 /piece',
+    price: '₹150 /kg',
     specs: [
       { label: 'Weight', value: '4 kg' },
       { label: 'Material', value: 'Wood' },
@@ -305,7 +305,7 @@ export const products: Product[] = [
     use: 'Grip strength, arm and shoulder strength, coordination, balance, body control',
     weights: ['4 kg'],
     material: 'Wood',
-    price: '₹1,200 /piece',
+    price: '₹230 /kg',
     specs: [
       { label: 'Weight', value: '4 kg' },
       { label: 'Material', value: 'Wood' },
@@ -407,7 +407,7 @@ export const products: Product[] = [
     use: 'Push-ups, L-sits, wrist relief, calisthenics conditioning',
     weights: [],
     material: 'Hardwood',
-    price: '₹500 /piece',
+    price: '₹500 /pair',
     specs: [
       { label: 'Push Up Bar Type', value: 'Parallel Bar Set' },
       { label: 'Weight Capacity', value: '150 kg' },
@@ -421,7 +421,7 @@ export const products: Product[] = [
   // ---------- GYMNASTICS EQUIPMENT ----------
   {
     slug: 'wooden-swedish-ladder-1-35m',
-    name: '1.35 M Wooden Swedish Ladder',
+    name: '8 ft Wooden Swedish Ladder',
     shortName: 'Swedish Ladder',
     category: 'Gymnastics Equipment',
     description:
@@ -429,7 +429,7 @@ export const products: Product[] = [
     use: 'Stretching, calisthenics, gymnastics training, rehabilitation',
     weights: [],
     material: 'Wood',
-    price: '₹20,000 /piece',
+    price: '₹13,000 /piece',
     specs: [
       { label: 'Height', value: '1.35 m' },
       { label: 'Material', value: 'Wood' },
@@ -441,7 +441,7 @@ export const products: Product[] = [
   },
   {
     slug: 'spring-board',
-    name: 'Gymnastics Spring Board',
+    name: '5 Spring Gymnastics Board',
     shortName: 'Spring Board',
     category: 'Gymnastics Equipment',
     description:
@@ -449,7 +449,7 @@ export const products: Product[] = [
     use: 'Gymnastics, Vaulting, Acrobatic training',
     weights: [],
     material: 'Wood & Steel Springs',
-    price: '₹9,000 /piece',
+    price: '₹8,500 /piece',
     specs: [
       { label: 'Equipment Type', value: 'Spring Board' },
       { label: 'Material', value: 'Wood, Steel Springs' },
@@ -461,7 +461,7 @@ export const products: Product[] = [
   // ---------- WOODEN POLE ----------
   {
     slug: 'wood-mallakhamb-pole-2-6m',
-    name: '2.6 M Wood Mallakhamb Pole',
+    name: '8 ft Wood Mallakhamb Pole',
     shortName: 'Mallakhamb Pole',
     category: 'Wooden Poles',
     description:
@@ -469,7 +469,7 @@ export const products: Product[] = [
     use: 'Mallakhamb training, gymnastics, core and grip strength',
     weights: [],
     material: 'Wood',
-    price: '₹14,000 /piece',
+    price: '₹13,000 /piece',
     specs: [
       { label: 'Length', value: '2.6 m' },
       { label: 'Material', value: 'Wood' },
