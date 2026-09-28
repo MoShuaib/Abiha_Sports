@@ -5,6 +5,7 @@ import { Mail, MapPin, MessageCircle, ArrowRight, Check } from 'lucide-react'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { Reveal } from '@/components/reveal'
+import { AnimatedBackground } from '@/components/animated-background'
 import { emailAddress, whatsappUrl } from '@/lib/products'
 import { supabase } from '@/lib/supabase'
 
@@ -39,9 +40,9 @@ export default function ContactPage() {
   return (
     <>
       <SiteHeader />
-      <main>
-        <section className="relative mx-auto grid max-w-7xl gap-14 overflow-hidden px-5 pb-20 pt-16 lg:grid-cols-[.8fr_1.2fr] lg:px-8 lg:pb-28 lg:pt-24">
-          <div className="pointer-events-none absolute -left-24 top-10 size-72 rounded-full bg-accent/20 blur-3xl" />
+      <main className="relative">
+        <AnimatedBackground />
+        <section className="relative z-10 mx-auto grid max-w-7xl gap-14 overflow-hidden px-5 pb-20 pt-16 lg:grid-cols-[.8fr_1.2fr] lg:px-8 lg:pb-28 lg:pt-24">
           <Reveal>
             <p className="text-xs font-bold uppercase tracking-[0.22em] text-accent-foreground">Get in touch</p>
             <h1 className="mt-4 font-serif text-5xl font-semibold leading-tight tracking-tight sm:text-7xl">
